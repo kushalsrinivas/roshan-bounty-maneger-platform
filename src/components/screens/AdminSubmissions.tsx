@@ -18,7 +18,7 @@ function AdminSubmissions({ id }: { id: string }) {
         <CardTitle className="text-primary mb-4 text-3xl font-bold">
           Submissions
         </CardTitle>
-        <div>
+        <div className="flex flex-col gap-4">
           {submissions && submissions.length > 0 ? (
             submissions.map((submission, index) => (
               <Card key={submission.submission.id} className="mb-4">
@@ -88,7 +88,7 @@ function AdminSubmissions({ id }: { id: string }) {
         <CardTitle className="text-primary mb-4 text-3xl font-bold">
           Short Listed
         </CardTitle>
-        <div>
+        <div className="flex flex-col gap-4">
           {submissions && submissions.length > 0 ? (
             submissions.map((submission, index) => (
               <div key={submission.submission.id}>
@@ -164,7 +164,7 @@ function AdminSubmissions({ id }: { id: string }) {
         <CardTitle className="text-primary mb-4 text-3xl font-bold">
           Winner
         </CardTitle>
-        <div>
+        <div className="flex flex-col gap-4">
           {submissions && submissions.length > 0 ? (
             submissions.map((submission, index) => (
               <div key={submission.submission.id}>

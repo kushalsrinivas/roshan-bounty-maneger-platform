@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { api } from "@/trpc/react";
+import { Loader2 } from "lucide-react";
 
 export default function SubmitProject({ userId }: { userId: string }) {
+  const [hasSubmitted, setHasSubmitted] = useState<boolean>(false); // Track if the user has already submitted
+
   const { id } = useParams();
   const [demoLink, setDemoLink] = useState("");
   const [demoVideo, setDemoVideo] = useState("");
@@ -30,7 +33,35 @@ export default function SubmitProject({ userId }: { userId: string }) {
     // Redirect to a thank you page or back to the bounty page
     router.push(`/bounty/${id as string}`);
   };
+  const { data: submissions } = api.submission.getAllSubmissions.useQuery(
+    {
+      projectId: id as string,
+    },
+    {
+      staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
 
+      refetchOnWindowFocus: false, // Prevent refetch on window focus
+      enabled: true, // Ensure this is set to false if conditional fetching is required
+    },
+  );
+  useEffect(() => {
+    if (submissions && userId) {
+      const hasAlreadySubmitted = submissions.some(
+        (submission) => submission.user?.id === userId,
+      );
+      setHasSubmitted(hasAlreadySubmitted);
+    }
+  }, [submissions, userId]);
+  if (hasSubmitted) {
+    redirect(`/bounty/${id as string}`);
+  }
+  if (!submissions) {
+    return (
+      <div className="flex h-screen items-center justify-center gap-3 text-center text-3xl font-bold text-main">
+        loading <Loader2 className="animate-spin"></Loader2>
+      </div>
+    );
+  }
   return (
     <div className="flex min-h-screen flex-col">
       <main className="container mx-auto flex-grow px-4 py-8">

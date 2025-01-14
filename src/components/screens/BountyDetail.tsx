@@ -8,12 +8,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatDistanceToNowStrict, isPast } from "date-fns";
 import { Loader2 } from "lucide-react";
 import Head from "next/head";
-function BountyDetail({ id }: { id: string }) {
+import { useParams } from "next/navigation";
+function BountyDetail({ userId }: { userId: string }) {
+  const { id } = useParams();
   const [timeLeft, setTimeLeft] = useState("");
   const [isDeadlinePassed, setIsDeadlinePassed] = useState<boolean>(false);
+  const [hasSubmitted, setHasSubmitted] = useState<boolean>(false); // Track if the user has already submitted
+
   const { data: bounty } = api.project.getBountyById.useQuery(
     {
-      projectId: id,
+      projectId: id as string,
     },
     {
       staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
@@ -24,7 +28,7 @@ function BountyDetail({ id }: { id: string }) {
   );
   const { data: submissions } = api.submission.getAllSubmissions.useQuery(
     {
-      projectId: id,
+      projectId: id as string,
     },
     {
       staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
@@ -61,7 +65,14 @@ function BountyDetail({ id }: { id: string }) {
       return () => clearInterval(timerInterval); // Clean up interval on unmount
     }
   }, [bounty]);
-
+  useEffect(() => {
+    if (submissions && userId) {
+      const hasAlreadySubmitted = submissions.some(
+        (submission) => submission.user?.id === userId,
+      );
+      setHasSubmitted(hasAlreadySubmitted);
+    }
+  }, [submissions, userId]);
   if (!bounty)
     return (
       <div className="flex h-screen items-center justify-center gap-3 text-center text-3xl font-bold text-main">
@@ -110,7 +121,7 @@ function BountyDetail({ id }: { id: string }) {
             <Link href={`/bounty/${bounty.projectId}/submit`}>
               <Button
                 className="bg-secondary hover:bg-secondary/80 text-secondary-foreground w-full"
-                disabled={isDeadlinePassed} // Disable button if deadline has passed
+                disabled={isDeadlinePassed || hasSubmitted} // Disable button if deadline passed or user already submitted
               >
                 Submit Project
               </Button>
@@ -124,7 +135,7 @@ function BountyDetail({ id }: { id: string }) {
             </CardTitle>
             <div>
               {submissions && submissions.length > 0 ? (
-                <div>
+                <div className="flex flex-col gap-4">
                   {submissions.map((submission, index) => (
                     <div
                       className="flex flex-row items-center gap-5"
@@ -157,7 +168,7 @@ function BountyDetail({ id }: { id: string }) {
           </CardTitle>
           <div>
             {submissions && submissions.length > 0 ? (
-              <div>
+              <div className="flex flex-col gap-4">
                 {submissions.map((submission, index) => {
                   return (
                     <div key={submission.submission.id}>
@@ -192,7 +203,7 @@ function BountyDetail({ id }: { id: string }) {
           </CardTitle>
           <div>
             {submissions && submissions.length > 0 ? (
-              <div>
+              <div className="flex flex-col gap-4">
                 {submissions.map((submission, index) => {
                   return (
                     <div key={submission.submission.id}>

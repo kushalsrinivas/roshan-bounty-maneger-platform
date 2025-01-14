@@ -1,8 +1,11 @@
-"use client";
 import BountyDetail from "@/components/screens/BountyDetail";
-import { useParams } from "next/navigation";
+import { auth } from "@/server/auth";
+import { redirect } from "next/navigation";
 
-export default function BountyPage() {
-  const { id } = useParams();
-  return <BountyDetail id={id as string}></BountyDetail>;
+export default async function BountyPage() {
+  const session = await auth();
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
+  return <BountyDetail userId={session.user.id}></BountyDetail>;
 }
