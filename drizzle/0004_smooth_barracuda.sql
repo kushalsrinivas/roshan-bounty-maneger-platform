@@ -1,0 +1,1 @@
+ALTER TABLE "roshanbounty_submissions" ADD COLUMN "isWinner" boolean DEFAULT false;

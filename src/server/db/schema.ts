@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
   pgTableCreator,
@@ -38,6 +39,31 @@ export const posts = createTable(
     nameIndex: index("name_idx").on(example.name),
   })
 );
+export const projects = createTable("projects", {
+  id: varchar("id", { length: 255 }).primaryKey().notNull(), // Unique identifier
+  projectId: varchar("project_id", { length: 255 }).unique().notNull(), // Unique project ID
+  title: varchar("title", { length: 255 }).notNull(), // Title of the project
+  description: text("description").notNull(), // Detailed description of the project
+  reward: varchar("reward", { length: 50 }).notNull(), // Reward value
+  deadline: timestamp("deadline").notNull(), // Deadline for the project
+  isCompleted: boolean("is_completed").default(false).notNull(), // Boolean indicating if the project is completed
+});
+
+
+export const submissions = createTable("submissions", {
+  id: varchar("id", { length: 255 }).primaryKey().notNull(), // Unique identifier for the record
+  userId: varchar("user_id", { length: 255 })
+    .notNull()
+    .references(() => users.id), // Foreign key referencing users table
+  projectId: varchar("project_id", { length: 255 })
+    .notNull()
+    .references(() => projects.projectId), // Foreign key referencing projects table
+  demoLink: varchar("demo_link", { length: 512 }), // Link to the demo application
+  demoVideo: varchar("demo_video", { length: 512 }), // Link to the demo video
+  githubRepo: varchar("github_repo", { length: 512 }),
+  isShortListed : boolean("isShortListed").default(false) , 
+  isWinner : boolean("isWinner").default(false)
+});
 
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })
