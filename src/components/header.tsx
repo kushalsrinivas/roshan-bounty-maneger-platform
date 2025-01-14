@@ -21,12 +21,7 @@ export function Header() {
             </Link>
           </li>
           <li>
-            <Link
-              href="/about"
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              About
-            </Link>
+        
           </li>
           <Button
             onClick={() => {
