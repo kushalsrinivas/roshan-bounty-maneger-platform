@@ -2,10 +2,10 @@ import { z } from "zod";
 
 import {
   createTRPCRouter,
-  protectedProcedure,
+
   publicProcedure,
 } from "@/server/api/trpc";
-import {  projects, submissions, users } from "@/server/db/schema";
+import {   submissions, users } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 export interface Submission {
   id: string; // Unique identifier for the submission

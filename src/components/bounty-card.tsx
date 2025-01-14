@@ -1,11 +1,5 @@
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 interface BountyCardProps {
@@ -21,7 +15,7 @@ interface BountyCardProps {
 export function BountyCard({
   id,
   title,
-  description,
+
   reward,
   deadline,
   projectId,

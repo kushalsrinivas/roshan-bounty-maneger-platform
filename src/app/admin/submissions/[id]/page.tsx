@@ -1,12 +1,15 @@
+"use client";
 import AdminSubmissions from "@/components/screens/AdminSubmissions";
+import { useParams } from "next/navigation";
 import React from "react";
 
-function page({ params }: { params: { id: string } }) {
+function Page() {
+  const { id } = useParams();
   return (
     <div>
-      <AdminSubmissions id={params.id}></AdminSubmissions>
+      <AdminSubmissions id={id as string}></AdminSubmissions>
     </div>
   );
 }
 
-export default page;
+export default Page;
