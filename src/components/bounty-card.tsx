@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 interface BountyCardProps {
@@ -28,14 +34,15 @@ export function BountyCard({
           <CardTitle className="text-primary text-2xl font-bold">
             {title}
           </CardTitle>
-          <span className="text-secondary bg-secondary/10 rounded-md px-2 py-1 text-lg font-bold">
+          <span className="text-secondary bg-secondary/10 min-w-20 rounded-md px-2 py-1 text-lg font-bold">
             $ {reward}
           </span>
         </div>
       </CardHeader>
       <CardContent>
         {/* <p className="text-muted-foreground mb-4">{description}</p> */}
-        <div className="flex items-center justify-between">
+
+        <div className="flex w-full items-center justify-between">
           <span className="text-primary text-sm">
             {new Date(deadline).toLocaleString()}
           </span>

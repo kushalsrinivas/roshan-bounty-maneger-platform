@@ -5,7 +5,12 @@ import { api } from "@/trpc/react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { formatDistanceToNowStrict, isPast } from "date-fns";
+import {
+  formatDistance,
+  formatDistanceToNow,
+  formatDistanceToNowStrict,
+  isPast,
+} from "date-fns";
 import { Loader2 } from "lucide-react";
 import Head from "next/head";
 import { useParams } from "next/navigation";
@@ -49,12 +54,18 @@ function BountyDetail({ userId }: { userId: string }) {
           return;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
-        setIsDeadlinePassed(isPast(deadlineDate));
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
-        setTimeLeft(
-          formatDistanceToNowStrict(deadlineDate, { addSuffix: true }),
+        // Convert to UTC to ensure consistent time calculations
+        const utcDeadline = new Date(
+          deadlineDate.getUTCFullYear(),
+          deadlineDate.getUTCMonth(),
+          deadlineDate.getUTCDate(),
+          deadlineDate.getUTCHours(),
+          deadlineDate.getUTCMinutes(),
+          deadlineDate.getUTCSeconds(),
         );
+
+        setIsDeadlinePassed(isPast(utcDeadline));
+        setTimeLeft(formatDistanceToNow(utcDeadline, { addSuffix: true }));
       };
 
       calculateTimeLeft();
@@ -109,11 +120,16 @@ function BountyDetail({ userId }: { userId: string }) {
                   : `Time Left: ${timeLeft}`}
               </CardTitle>
             </div>
-            <p className="text-muted-foreground mb-6">{bounty.description}</p>
+            <p
+              className="text-muted-foreground mb-6"
+              dangerouslySetInnerHTML={{
+                __html: bounty.description.replace(/\n/g, "<br>"),
+              }}
+            ></p>
             <div className="mb-6 flex justify-between">
               <span className="font-bold">${bounty.reward}</span>
               <span className="text-primary">
-                Deadline: {new Date(bounty.deadline).toLocaleString()}
+                Deadline: {new Date(bounty.deadline).toDateString()}
               </span>
             </div>
 
