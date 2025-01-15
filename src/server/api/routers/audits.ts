@@ -32,7 +32,7 @@ export const auditRouter = createTRPCRouter({
   findAuditor : protectedProcedure.input(z.object({id : z.string().min(1)})).query(async ({ctx, input}) => {
     const user =  await ctx.db.query.cretfiedAuditors.findFirst({where : eq(users.id, input.id)}) ;
     if(user){
-        return user;
+        return [user];
     }
     return [];
 

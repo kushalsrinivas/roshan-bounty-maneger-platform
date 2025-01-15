@@ -1,11 +1,5 @@
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, DollarSign } from "lucide-react";
 
@@ -29,7 +23,10 @@ export function BountyCard({
   isAdmin,
 }: BountyCardProps) {
   return (
-    <Card className="group border-zinc-800 bg-zinc-900/50 transition-colors hover:bg-zinc-900">
+    <Card
+      key={id}
+      className="group border-zinc-800 bg-zinc-900/50 transition-colors hover:bg-zinc-900"
+    >
       <CardContent className="p-6">
         <div className="flex items-start justify-between gap-4">
           <h3 className="text-lg font-semibold text-white">{title}</h3>
