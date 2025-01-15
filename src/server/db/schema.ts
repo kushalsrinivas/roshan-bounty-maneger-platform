@@ -48,7 +48,19 @@ export const projects = createTable("projects", {
   deadline: timestamp("deadline").notNull(), // Deadline for the project
   isCompleted: boolean("is_completed").default(false).notNull(), // Boolean indicating if the project is completed
 });
-
+export const cretfiedAuditors = createTable("certified_auditors", {
+  id: varchar("id", { length: 255 })
+  .notNull()
+  .primaryKey()
+  .$defaultFn(() => crypto.randomUUID()),
+name: varchar("name", { length: 255 }),
+email: varchar("email", { length: 255 }).notNull(),
+emailVerified: timestamp("email_verified", {
+  mode: "date",
+  withTimezone: true,
+}).default(sql`CURRENT_TIMESTAMP`),
+image: varchar("image", { length: 255 }),
+})
 
 export const submissions = createTable("submissions", {
   id: varchar("id", { length: 255 }).primaryKey().notNull(), // Unique identifier for the record

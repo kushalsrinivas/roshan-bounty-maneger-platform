@@ -8,14 +8,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
 import { v4 as uuid } from "uuid";
+import { redirect } from "next/navigation";
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ userId }: { userId: string }) {
   // State for each field
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [reward, setReward] = useState("");
   const [deadline, setDeadline] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
   const create = api.project.createProject.useMutation();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,7 +31,15 @@ export default function AdminDashboard() {
     });
     setIsLoading(false);
   };
+  const createAuditor = api.auditor.create.useMutation();
+  const { data } = api.auditor.findAuditor.useQuery({ id: userId });
 
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  if (data.length === 0) {
+    redirect("/");
+  }
   return (
     <div className="container mx-auto p-8">
       <h1 className="mb-4 text-2xl font-bold text-main">Create a New Bounty</h1>
@@ -87,6 +97,27 @@ export default function AdminDashboard() {
           {isLoading ? "Creating..." : "Create Bounty"}
         </Button>
       </form>
+      <div>
+        <Label className="text-main" htmlFor="deadline">
+          add people
+        </Label>
+        <Input
+          id="deadline"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+      <Button
+        onClick={() => {
+          createAuditor.mutate({
+            email: email,
+          });
+        }}
+      >
+        add people
+      </Button>
     </div>
   );
 }

@@ -10,12 +10,10 @@ async function page() {
   if (!session) {
     redirect("/api/auth/signin");
   }
-  if (session.user.email !== "kushal.s.2005@gmail.com") {
-    redirect("/");
-  }
+
   return (
     <div>
-      <AdminDashboard></AdminDashboard>
+      <AdminDashboard userId={session.user.id}></AdminDashboard>
       <div className="conainter mx-auto flex-grow px-4 py-8">
         <h1 className="p-5 text-center text-3xl font-extrabold text-main">
           Your Bounties
