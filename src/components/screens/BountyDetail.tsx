@@ -134,14 +134,14 @@ function BountyDetail({ userId }: { userId: string }) {
             </div>
 
             {/* Submit Button */}
-            <Link href={`/bounty/${bounty.projectId}/submit`}>
-              <Button
-                className="bg-secondary hover:bg-secondary/80 text-secondary-foreground w-full"
-                disabled={isDeadlinePassed || hasSubmitted} // Disable button if deadline passed or user already submitted
-              >
+            <Button
+              className="bg-secondary hover:bg-secondary/80 text-secondary-foreground w-full"
+              disabled={isDeadlinePassed || hasSubmitted} // Disable button if deadline passed or user already submitted
+            >
+              <Link href={`/bounty/${bounty.projectId}/submit`}>
                 Submit Project
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </Card>
 
           {/* Submissions Section */}

@@ -44,7 +44,7 @@ export function BountyCard({
 
         <div className="flex w-full items-center justify-between">
           <span className="text-primary text-sm">
-            {new Date(deadline).toLocaleString()}
+            {new Date(deadline).toDateString()}
           </span>
           {isAdmin ? (
             <Link href={`/admin/submissions/${projectId}`}>
