@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Card, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { api } from "@/trpc/react";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -11,9 +11,17 @@ import {
   formatDistanceToNowStrict,
   isPast,
 } from "date-fns";
-import { Loader2 } from "lucide-react";
+import {
+  Calendar,
+  DollarSign,
+  Loader2,
+  Send,
+  Trophy,
+  Users,
+} from "lucide-react";
 import Head from "next/head";
 import { useParams } from "next/navigation";
+import { Badge } from "../ui/badge";
 function BountyDetail({ userId }: { userId: string }) {
   const { id } = useParams();
   const [timeLeft, setTimeLeft] = useState("");
@@ -91,7 +99,164 @@ function BountyDetail({ userId }: { userId: string }) {
       </div>
     );
   return (
-    <div className="flex flex-col items-start md:flex-row lg:flex-row">
+    // <div className="flex flex-col items-start md:flex-row lg:flex-row">
+    //   <Head>
+    //     <title>
+    //       {bounty.title} | {"$" + bounty.reward}
+    //     </title>
+    //     <meta name="description" content={bounty.description} />
+    //     <meta name="keywords" content="bounty, project, submissions, rewards" />
+    //     <meta property="og:title" content={bounty.title} />
+    //     <meta property="og:description" content={bounty.description} />
+    //     <meta property="og:rewards" content={"$" + bounty.reward} />
+
+    //     <meta property="og:type" content="website" />
+    //   </Head>
+    //   <div className="flex w-full flex-col md:min-h-screen lg:min-h-screen">
+    //     <main className="container mx-auto flex-grow px-4 py-8">
+    //       <Card className="relative mx-auto max-w-2xl rounded-lg p-6">
+    //         {/* Timer on the top-left */}
+
+    //         {/* Bounty Details */}
+    //         <div className="flex flex-row items-center justify-between">
+    //           <CardTitle className="text-primary mb-4 text-3xl font-bold">
+    //             {bounty.title}
+    //           </CardTitle>
+    //           <CardTitle className="">
+    //             {isDeadlinePassed
+    //               ? "Deadline Passed"
+    //               : `Time Left: ${timeLeft}`}
+    //           </CardTitle>
+    //         </div>
+    //         <p
+    //           className="text-muted-foreground mb-6"
+    //           dangerouslySetInnerHTML={{
+    //             __html: bounty.description.replace(/\n/g, "<br>"),
+    //           }}
+    //         ></p>
+    //         <div className="mb-6 flex justify-between">
+    //           <span className="font-bold">${bounty.reward}</span>
+    //           <span className="text-primary">
+    //             Deadline: {new Date(bounty.deadline).toDateString()}
+    //           </span>
+    //         </div>
+
+    //         {/* Submit Button */}
+    //         <Button
+    //           className="bg-secondary hover:bg-secondary/80 text-secondary-foreground w-full"
+    //           disabled={isDeadlinePassed || hasSubmitted} // Disable button if deadline passed or user already submitted
+    //         >
+    //           <Link href={`/bounty/${bounty.projectId}/submit`}>
+    //             Submit Project
+    //           </Link>
+    //         </Button>
+    //       </Card>
+
+    //       {/* Submissions Section */}
+    //     </main>
+    //   </div>
+    //   <main className="container mx-auto px-4 py-8">
+    //     <Card className="mx-auto mt-5 max-w-2xl rounded-lg p-6">
+    //       <CardTitle className="text-primary mb-4 text-3xl font-bold">
+    //         Winner
+    //       </CardTitle>
+    //       <div>
+    //         {submissions && submissions.length > 0 ? (
+    //           <div className="flex flex-col gap-4">
+    //             {submissions.map((submission, index) => {
+    //               return (
+    //                 <div key={submission.submission.id}>
+    //                   {submission.submission.isShortListed &&
+    //                     submission.submission.isWinner && (
+    //                       <div className="flex flex-row items-center gap-5">
+    //                         {index + 1}{" "}
+    //                         <Avatar>
+    //                           <AvatarImage
+    //                             src={submission.user?.image ?? ""}
+    //                           ></AvatarImage>
+    //                           <AvatarFallback>
+    //                             {submission.user?.name?.substring(0, 2)}
+    //                           </AvatarFallback>
+    //                         </Avatar>
+    //                         {submission.user?.name}
+    //                       </div>
+    //                     )}
+    //                 </div>
+    //               );
+    //             })}
+    //           </div>
+    //         ) : (
+    //           <div>No Submissions yet</div>
+    //         )}
+    //       </div>
+    //     </Card>
+    //     {/* Submissions Section */}
+    //     <Card className="mx-auto mt-5 max-w-2xl rounded-lg p-6">
+    //       <CardTitle className="text-primary mb-4 text-3xl font-bold">
+    //         Short Listed
+    //       </CardTitle>
+    //       <div>
+    //         {submissions && submissions.length > 0 ? (
+    //           <div className="flex flex-col gap-4">
+    //             {submissions.map((submission, index) => {
+    //               return (
+    //                 <div key={submission.submission.id}>
+    //                   {submission.submission.isShortListed && (
+    //                     <div className="flex flex-row items-center gap-5">
+    //                       {index + 1}{" "}
+    //                       <Avatar>
+    //                         <AvatarImage
+    //                           src={submission.user?.image ?? ""}
+    //                         ></AvatarImage>
+    //                         <AvatarFallback>
+    //                           {submission.user?.name?.substring(0, 2)}
+    //                         </AvatarFallback>
+    //                       </Avatar>
+    //                       {submission.user?.name}
+    //                     </div>
+    //                   )}
+    //                 </div>
+    //               );
+    //             })}
+    //           </div>
+    //         ) : (
+    //           <div>No Submissions yet</div>
+    //         )}
+    //       </div>
+    //     </Card>
+    //     <Card className="mx-auto mt-5 max-w-2xl rounded-lg p-6">
+    //       <CardTitle className="text-primary mb-4 text-3xl font-bold">
+    //         Submissions
+    //       </CardTitle>
+    //       <div>
+    //         {submissions && submissions.length > 0 ? (
+    //           <div className="flex flex-col gap-4">
+    //             {submissions.map((submission, index) => (
+    //               <div
+    //                 className="flex flex-row items-center gap-5"
+    //                 key={submission.submission.id}
+    //               >
+    //                 {index + 1}{" "}
+    //                 <Avatar>
+    //                   <AvatarImage
+    //                     src={submission.user?.image ?? ""}
+    //                   ></AvatarImage>
+    //                   <AvatarFallback>
+    //                     {submission.user?.name?.substring(0, 2)}
+    //                   </AvatarFallback>
+    //                 </Avatar>
+    //                 {submission.user?.name}
+    //               </div>
+    //             ))}
+    //           </div>
+    //         ) : (
+    //           <div>No Submissions yet</div>
+    //         )}
+    //       </div>
+    //     </Card>
+    //   </main>
+    // </div>
+    <main className="container mx-auto grid gap-6 px-4 py-12 lg:grid-cols-[1fr_400px]">
       <Head>
         <title>
           {bounty.title} | {"$" + bounty.reward}
@@ -104,85 +269,66 @@ function BountyDetail({ userId }: { userId: string }) {
 
         <meta property="og:type" content="website" />
       </Head>
-      <div className="flex w-full flex-col md:min-h-screen lg:min-h-screen">
-        <main className="container mx-auto flex-grow px-4 py-8">
-          <Card className="relative mx-auto max-w-2xl rounded-lg p-6">
-            {/* Timer on the top-left */}
-
-            {/* Bounty Details */}
-            <div className="flex flex-row items-center justify-between">
-              <CardTitle className="text-primary mb-4 text-3xl font-bold">
-                {bounty.title}
-              </CardTitle>
-              <CardTitle className="">
+      <div className="space-y-6">
+        <Card className="border-zinc-800 bg-zinc-900/50">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-white">
+                  {" "}
+                  {bounty.title}
+                </h1>{" "}
+                <p
+                  className="mt-2 text-zinc-400"
+                  dangerouslySetInnerHTML={{
+                    __html: bounty.description.replace(/\n/g, "<br>"),
+                  }}
+                ></p>
+              </div>
+              <div className="flex items-center gap-2">
+                <DollarSign className="h-5 w-5 text-emerald-500" />
+                <span className="f font-mono text-xl text-emerald-500">
+                  {bounty.reward}
+                </span>
+              </div>
+            </div>
+            <div className="mt-6 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-zinc-400">
+                <Calendar className="h-4 w-4" />
+                Deadline: {new Date(bounty.deadline).toDateString()}
+              </div>
+              <Badge variant="default" className="bg-red-500/10 text-red-500">
                 {isDeadlinePassed
                   ? "Deadline Passed"
                   : `Time Left: ${timeLeft}`}
-              </CardTitle>
-            </div>
-            <p
-              className="text-muted-foreground mb-6"
-              dangerouslySetInnerHTML={{
-                __html: bounty.description.replace(/\n/g, "<br>"),
-              }}
-            ></p>
-            <div className="mb-6 flex justify-between">
-              <span className="font-bold">${bounty.reward}</span>
-              <span className="text-primary">
-                Deadline: {new Date(bounty.deadline).toDateString()}
-              </span>
+              </Badge>
             </div>
 
-            {/* Submit Button */}
             <Button
-              className="bg-secondary hover:bg-secondary/80 text-secondary-foreground w-full"
-              disabled={isDeadlinePassed || hasSubmitted} // Disable button if deadline passed or user already submitted
+              className="mt-6 w-full bg-emerald-500/10 text-emerald-500"
+              variant="default"
+              disabled={isDeadlinePassed || hasSubmitted}
             >
-              <Link href={`/bounty/${bounty.projectId}/submit`}>
+              {" "}
+              <Link
+                className="flex flex-row items-center gap-1"
+                href={`/bounty/${bounty.projectId}/submit`}
+              >
+                <Send className="mr-2 h-4 w-4" />
                 Submit Project
               </Link>
             </Button>
-          </Card>
+          </CardContent>
+        </Card>
 
-          {/* Submissions Section */}
-          <Card className="mx-auto mt-5 max-w-2xl rounded-lg p-6">
-            <CardTitle className="text-primary mb-4 text-3xl font-bold">
-              Submissions
+        <Card className="border-zinc-800 bg-zinc-900/50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Trophy className="h-5 w-5 text-yellow-500" />
+              Winner
             </CardTitle>
-            <div>
-              {submissions && submissions.length > 0 ? (
-                <div className="flex flex-col gap-4">
-                  {submissions.map((submission, index) => (
-                    <div
-                      className="flex flex-row items-center gap-5"
-                      key={submission.submission.id}
-                    >
-                      {index + 1}{" "}
-                      <Avatar>
-                        <AvatarImage
-                          src={submission.user?.image ?? ""}
-                        ></AvatarImage>
-                        <AvatarFallback>
-                          {submission.user?.name?.substring(0, 2)}
-                        </AvatarFallback>
-                      </Avatar>
-                      {submission.user?.name}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div>No Submissions yet</div>
-              )}
-            </div>
-          </Card>
-        </main>
-      </div>
-      <main className="container mx-auto px-4 py-8">
-        <Card className="mx-auto mt-5 max-w-2xl rounded-lg p-6">
-          <CardTitle className="text-primary mb-4 text-3xl font-bold">
-            Winner
-          </CardTitle>
-          <div>
+          </CardHeader>
+          <CardContent>
             {submissions && submissions.length > 0 ? (
               <div className="flex flex-col gap-4">
                 {submissions.map((submission, index) => {
@@ -190,17 +336,20 @@ function BountyDetail({ userId }: { userId: string }) {
                     <div key={submission.submission.id}>
                       {submission.submission.isShortListed &&
                         submission.submission.isWinner && (
-                          <div className="flex flex-row items-center gap-5">
-                            {index + 1}{" "}
+                          <div className="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900 p-3">
+                            {index + 1}
                             <Avatar>
-                              <AvatarImage
-                                src={submission.user?.image ?? ""}
-                              ></AvatarImage>
+                              <AvatarImage src={submission.user?.image ?? ""} />
                               <AvatarFallback>
                                 {submission.user?.name?.substring(0, 2)}
                               </AvatarFallback>
                             </Avatar>
-                            {submission.user?.name}
+                            <div>
+                              <p className="font-medium text-white">
+                                {submission.user?.name}
+                              </p>
+                              <p className="text-sm text-zinc-400">Winner</p>
+                            </div>
                           </div>
                         )}
                     </div>
@@ -208,33 +357,40 @@ function BountyDetail({ userId }: { userId: string }) {
                 })}
               </div>
             ) : (
-              <div>No Submissions yet</div>
+              <div className="text-main">No Submissions yet</div>
             )}
-          </div>
+          </CardContent>
         </Card>
-        {/* Submissions Section */}
-        <Card className="mx-auto mt-5 max-w-2xl rounded-lg p-6">
-          <CardTitle className="text-primary mb-4 text-3xl font-bold">
-            Short Listed
-          </CardTitle>
-          <div>
+      </div>
+
+      <div className="space-y-6">
+        <Card className="border-zinc-800 bg-zinc-900/50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Users className="h-5 w-5 text-emerald-500" />
+              Short Listed
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
             {submissions && submissions.length > 0 ? (
               <div className="flex flex-col gap-4">
                 {submissions.map((submission, index) => {
                   return (
                     <div key={submission.submission.id}>
                       {submission.submission.isShortListed && (
-                        <div className="flex flex-row items-center gap-5">
-                          {index + 1}{" "}
+                        <div className="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900 p-3">
+                          {index + 1}
                           <Avatar>
-                            <AvatarImage
-                              src={submission.user?.image ?? ""}
-                            ></AvatarImage>
+                            <AvatarImage src={submission.user?.image ?? ""} />
                             <AvatarFallback>
                               {submission.user?.name?.substring(0, 2)}
                             </AvatarFallback>
                           </Avatar>
-                          {submission.user?.name}
+                          <div>
+                            <p className="font-medium text-white">
+                              {submission.user?.name}
+                            </p>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -242,12 +398,51 @@ function BountyDetail({ userId }: { userId: string }) {
                 })}
               </div>
             ) : (
-              <div>No Submissions yet</div>
+              <div className="text-main">No Submissions yet</div>
             )}
-          </div>
+          </CardContent>
         </Card>
-      </main>
-    </div>
+
+        <Card className="border-zinc-800 bg-zinc-900/50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Send className="h-5 w-5 text-blue-500" />
+              Submissions
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {submissions && submissions.length > 0 ? (
+              <div className="flex flex-col gap-4">
+                {submissions.map((submission, index) => {
+                  return (
+                    <div key={submission.submission.id}>
+                      {
+                        <div className="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900 p-3">
+                          {index + 1}
+                          <Avatar>
+                            <AvatarImage src={submission.user?.image ?? ""} />
+                            <AvatarFallback>
+                              {submission.user?.name?.substring(0, 2)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium text-white">
+                              {submission.user?.name}
+                            </p>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-main">No Submissions yet</div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </main>
   );
 }
 

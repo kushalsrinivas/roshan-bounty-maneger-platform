@@ -17,11 +17,13 @@ export default function SubmitProject({ userId }: { userId: string }) {
   const [demoLink, setDemoLink] = useState("");
   const [demoVideo, setDemoVideo] = useState("");
   const [githubRepo, setGithubRepo] = useState("");
+  const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const createSubmission = api.submission.createSubmission.useMutation();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     // Here you would typically send the data to your backend
     createSubmission.mutate({
       projectId: id as string,
@@ -65,7 +67,7 @@ export default function SubmitProject({ userId }: { userId: string }) {
   return (
     <div className="flex min-h-screen flex-col">
       <main className="container mx-auto flex-grow px-4 py-8">
-        <Card className="mx-auto max-w-md rounded-lg border p-6">
+        <Card className="mx-auto max-w-md rounded-lg border border-zinc-800 bg-zinc-900/50 p-6 text-white transition-colors hover:bg-zinc-900">
           <h1 className="text-primary mb-6 text-2xl font-bold">
             Submit Your Project
           </h1>
@@ -105,7 +107,8 @@ export default function SubmitProject({ userId }: { userId: string }) {
             </div>
             <Button
               type="submit"
-              className="bg-secondary hover:bg-secondary/80 text-secondary-foreground w-full"
+              className="w-full bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20"
+              disabled={isLoading}
             >
               Submit Project
             </Button>

@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Calendar, DollarSign } from "lucide-react";
 
 interface BountyCardProps {
   id: string;
@@ -28,40 +29,35 @@ export function BountyCard({
   isAdmin,
 }: BountyCardProps) {
   return (
-    <Card key={id}>
-      <CardHeader className="pb-2">
-        <div className="flex items-start justify-between">
-          <CardTitle className="text-primary text-2xl font-bold">
-            {title}
-          </CardTitle>
-          <span className="text-secondary bg-secondary/10 min-w-20 rounded-md px-2 py-1 text-lg font-bold">
-            $ {reward}
-          </span>
+    <Card className="group border-zinc-800 bg-zinc-900/50 transition-colors hover:bg-zinc-900">
+      <CardContent className="p-6">
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="text-lg font-semibold text-white">{title}</h3>
+          <div className="flex items-center gap-1 text-emerald-500">
+            <DollarSign className="h-4 w-4" />
+            <span className="font-mono text-sm">{reward}</span>
+          </div>
         </div>
-      </CardHeader>
-      <CardContent>
-        {/* <p className="text-muted-foreground mb-4">{description}</p> */}
-
-        <div className="flex w-full items-center justify-between">
-          <span className="text-primary text-sm">
-            {new Date(deadline).toDateString()}
-          </span>
-          {isAdmin ? (
-            <Link href={`/admin/submissions/${projectId}`}>
-              <Button className="bg-primary hover:bg-primary/80 text-primary-foreground">
-                View submissions
-              </Button>
-            </Link>
-          ) : (
-            <Link href={`/bounty/${projectId}`}>
-              <Button className="bg-primary hover:bg-primary/80 text-primary-foreground">
-                View Bounty
-              </Button>
-            </Link>
-          )}
+        <div className="mt-4 flex items-center gap-2 text-sm text-zinc-400">
+          <Calendar className="h-4 w-4" />
+          {deadline.toDateString()}
         </div>
       </CardContent>
-      <div className="from-primary to-secondary absolute left-0 top-0 h-1 w-full bg-gradient-to-r opacity-0 transition-opacity group-hover:opacity-100"></div>
+      <CardFooter className="p-6 pt-0">
+        {isAdmin ? (
+          <Link className="w-full" href={`/admin/submissions/${projectId}`}>
+            <Button className="w-full bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20">
+              View submissions
+            </Button>
+          </Link>
+        ) : (
+          <Link className="w-full" href={`/bounty/${projectId}`}>
+            <Button className="w-full bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20">
+              View Bounty
+            </Button>
+          </Link>
+        )}
+      </CardFooter>
     </Card>
   );
 }

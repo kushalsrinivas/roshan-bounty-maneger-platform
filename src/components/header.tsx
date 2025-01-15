@@ -6,23 +6,21 @@ import { redirect } from "next/navigation";
 
 export function Header() {
   return (
-    <Card className="rounded-none border-b p-4">
+    <Card className="m-5 border-b border-zinc-800 bg-black/50 p-5 backdrop-blur-xl">
       <nav className="container mx-auto flex items-center justify-between">
-        <Link href="/" className="text-primary text-2xl font-bold">
+        <Link href="/" className="text-2xl font-light text-main">
           Permissionless
         </Link>
         <ul className="flex items-center space-x-4">
           <li>
             <Link
               href="/"
-              className="text-foreground hover:text-primary transition-colors"
+              className="hover:text-primary text-main transition-colors"
             >
               Home
             </Link>
           </li>
-          <li>
-        
-          </li>
+          <li></li>
           <Button
             onClick={() => {
               redirect("/api/auth/signout");
