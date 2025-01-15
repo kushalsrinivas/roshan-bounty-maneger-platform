@@ -32,7 +32,15 @@ export default function AdminDashboard({ userId }: { userId: string }) {
     setIsLoading(false);
   };
   const createAuditor = api.auditor.create.useMutation();
-  const { data } = api.auditor.findAuditor.useQuery({ id: userId });
+  const { data } = api.auditor.findAuditor.useQuery(
+    { id: userId },
+    {
+      staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+
+      refetchOnWindowFocus: false, // Prevent refetch on window focus
+      enabled: true, // Ensure this is set to false if conditional fetching is required
+    },
+  );
 
   if (!data) {
     return <div>Loading...</div>;
